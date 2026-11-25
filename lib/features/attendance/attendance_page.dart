@@ -1,7 +1,9 @@
+import 'dart:ui' show FontFeature;
 import 'package:flutter/material.dart';
 import 'package:kelompok_7_pertemuan_8/core/constants/app_colors.dart';
 import 'package:kelompok_7_pertemuan_8/shared/widgets/app_card.dart';
 import 'package:kelompok_7_pertemuan_8/shared/widgets/status_pill.dart';
+import 'package:kelompok_7_pertemuan_8/shared/widgets/live_clock.dart';
 import 'package:kelompok_7_pertemuan_8/core/theme/input_styles.dart';
 import 'package:kelompok_7_pertemuan_8/features/attendance/widgets/geofence_map.dart';
 import 'package:kelompok_7_pertemuan_8/features/attendance/widgets/data_chip.dart';
@@ -17,10 +19,12 @@ class _AttendancePageState extends State<AttendancePage> {
   @override Widget build(BuildContext context) => ListView(padding: const EdgeInsets.fromLTRB(18, 12, 18, 22), children: [
     Row(children: [IconButton(onPressed: () => Navigator.of(context).maybePop(), icon: const Icon(Icons.arrow_back, size: 20)), const Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text('Presensi Geofencing', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: ink)), Text('PresenTech v2.4 • Modul Presensi C.3', style: TextStyle(fontSize: 9, color: muted))])), IconButton(onPressed: () => setState(() {}), icon: const Icon(Icons.refresh, size: 19, color: navy))]),
     appCard(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      const Row(children: [Icon(Icons.calendar_today, size: 13, color: muted), SizedBox(width: 7), Text('Senin, 24 Maret 2025', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: ink))]),
-      const Text('Zona Waktu: Asia/Jakarta (WIB)', style: TextStyle(fontSize: 9, color: muted)),
-      const SizedBox(height: 10),
-      Container(padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9), decoration: BoxDecoration(color: const Color(0xFFF1F5FF), borderRadius: BorderRadius.circular(9)), child: const Row(crossAxisAlignment: CrossAxisAlignment.end, children: [Text('20:31:00', style: TextStyle(fontSize: 27, color: navy, fontWeight: FontWeight.w800)), Padding(padding: EdgeInsets.only(bottom: 4, left: 4), child: Text('WIB', style: TextStyle(fontSize: 10, color: navy, fontWeight: FontWeight.w700)))])),
+      LiveClock(builder: (context, now) => Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Row(children: [const Icon(Icons.calendar_today, size: 13, color: muted), const SizedBox(width: 7), Text(formatTanggal(now), style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: ink))]),
+        const Text('Zona Waktu: Asia/Jakarta (WIB)', style: TextStyle(fontSize: 9, color: muted)),
+        const SizedBox(height: 10),
+        Container(padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9), decoration: BoxDecoration(color: const Color(0xFFF1F5FF), borderRadius: BorderRadius.circular(9)), child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [Text(formatJam(now), style: const TextStyle(fontSize: 27, color: navy, fontWeight: FontWeight.w800, fontFeatures: [FontFeature.tabularFigures()])), const Padding(padding: EdgeInsets.only(bottom: 4, left: 4), child: Text('WIB', style: TextStyle(fontSize: 10, color: navy, fontWeight: FontWeight.w700)))])),
+      ])),
     ])),
     const SizedBox(height: 10),
     appCard(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
